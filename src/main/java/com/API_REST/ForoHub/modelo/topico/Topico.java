@@ -24,10 +24,9 @@ public class Topico {
     private String mensaje;
     private LocalDateTime fechaCreacion;
     private String status; // boolean???
-    private String autor;
     private String curso;
 
-    @OneToMany(mappedBy = "topico", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "topico", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference // serializar lista?
     private List<Respuesta> respuestas;
 
@@ -43,8 +42,27 @@ public class Topico {
         this.idUsuario = DTOdatosTopicoDTO.idUsuario();
         this.curso = DTOdatosTopicoDTO.curso();
         this.respuestas = new ArrayList<>();
-        this.status = "No sé";  // Activo o inactivo
-        this.autor = "No sé"; // depende el usuario?
+        this.status = "ACTIVO";  // Activo o inactivo
+    }
+
+    public void actualizarDatos(DatosActualizarTopicoDTO datosActualizarTopicoDTO){
+
+        if(datosActualizarTopicoDTO.titulo() != null){
+            this.titulo = datosActualizarTopicoDTO.titulo();
+        }
+        if(datosActualizarTopicoDTO.mensaje() != null){
+            this.mensaje = datosActualizarTopicoDTO.mensaje();
+        }
+        if(datosActualizarTopicoDTO.estado() != null){
+            this.status = datosActualizarTopicoDTO.estado();
+        }
+        if(datosActualizarTopicoDTO.idUsuario() != null){
+            this.idUsuario = datosActualizarTopicoDTO.idUsuario();
+        }
+        if(datosActualizarTopicoDTO.curso() != null){
+            this.curso = datosActualizarTopicoDTO.curso();
+        }
+
     }
 
     public Long getId() {
@@ -103,14 +121,6 @@ public class Topico {
         this.curso = curso;
     }
 
-    public String getAutor() {
-        return autor;
-    }
-
-    public void setAutor(String autor) {
-        this.autor = autor;
-    }
-
     public List<Respuesta> getRespuestas() {
         return respuestas;
     }
@@ -122,7 +132,6 @@ public class Topico {
     @Override
     public String toString() {
         return "Topico{" +
-                "autor='" + autor + '\'' +
                 ", id=" + id +
                 ", idUsuario='" + idUsuario + '\'' +
                 ", titulo='" + titulo + '\'' +
