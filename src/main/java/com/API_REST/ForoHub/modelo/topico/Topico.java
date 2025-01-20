@@ -62,7 +62,6 @@ public class Topico {
         if(datosActualizarTopicoDTO.curso() != null){
             this.curso = datosActualizarTopicoDTO.curso();
         }
-
     }
 
     public Long getId() {

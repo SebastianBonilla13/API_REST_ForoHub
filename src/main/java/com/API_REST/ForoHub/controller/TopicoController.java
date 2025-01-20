@@ -1,7 +1,7 @@
 package com.API_REST.ForoHub.controller;
 
 import com.API_REST.ForoHub.modelo.topico.DatosActualizarTopicoDTO;
-import com.API_REST.ForoHub.modelo.topico.DatosListadoTopico;
+import com.API_REST.ForoHub.modelo.topico.DatosRespuestaTopico;
 import com.API_REST.ForoHub.modelo.topico.TopicoDTO;
 import com.API_REST.ForoHub.service.TopicoService;
 import jakarta.transaction.Transactional;
@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
+import org.springframework.web.util.UriComponentsBuilder;
+import java.net.URI;
 
 @RestController
 @RequestMapping("/topico")
@@ -23,13 +23,18 @@ public class TopicoController {
     private TopicoService topicoService;
 
     @PostMapping
-    public void registrarTopico(@RequestBody @Valid TopicoDTO topicoDTO){
-        topicoService.registrarTopico(topicoDTO);
+    public ResponseEntity<DatosRespuestaTopico> registrarTopico(@RequestBody @Valid TopicoDTO topicoDTO,
+                                          UriComponentsBuilder uriComponentsBuilder){
+        DatosRespuestaTopico respuestaTopico = topicoService.registrarTopico(topicoDTO);
+
+        // URL dinámica, GET topico registrado
+        URI url =uriComponentsBuilder.path("/topicos/{id}").buildAndExpand(respuestaTopico.id()).toUri();
+        return ResponseEntity.created(url).body(respuestaTopico); // 201 created
     }
 
     @GetMapping
-    public Page<DatosListadoTopico> listarTopicos(@PageableDefault(size = 10) Pageable paginacion){
-        return topicoService.listarTopicos(paginacion);
+    public ResponseEntity<Page<DatosRespuestaTopico>> listarTopicos(@PageableDefault(size = 10) Pageable paginacion){
+        return ResponseEntity.ok(topicoService.listarTopicos(paginacion));
           // Validando de la BD
 //        List<Topico> topicos = topicoRepository.findAll();
 //        System.out.println("Cantidad de tópicos en la base de datos: " + topicos.size());
@@ -38,20 +43,23 @@ public class TopicoController {
     }
 
     @GetMapping("/{id}")
-    public DatosListadoTopico respuestaTopico(@PathVariable Long id){
-        return topicoService.respuestaTopico(id);
+    public ResponseEntity respuestaTopico(@PathVariable Long id){
+        DatosRespuestaTopico respuestaTopico = topicoService.respuestaTopico(id);
+        return ResponseEntity.ok(respuestaTopico);
     }
 
     @Transactional
     @PutMapping
-    public void actualizarTopico(@RequestBody @Valid DatosActualizarTopicoDTO datosActualizarTopicoDTO){
-        topicoService.actualizarTopico(datosActualizarTopicoDTO);
+    public ResponseEntity actualizarTopico(@RequestBody @Valid DatosActualizarTopicoDTO datosActualizarTopicoDTO){
+        DatosRespuestaTopico topicoRespuesta = topicoService.actualizarTopico(datosActualizarTopicoDTO);
+        return ResponseEntity.ok(topicoRespuesta);
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    public void eliminarTopico(@PathVariable Long id){
+    public ResponseEntity eliminarTopico(@PathVariable Long id){
         topicoService.eliminarTopico(id);
+        return ResponseEntity.noContent().build(); // 204, nada que retornar
     }
 
 }
