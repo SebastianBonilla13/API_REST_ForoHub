@@ -1,6 +1,5 @@
 package com.API_REST.ForoHub.modelo.respuesta;
 
-
 import com.API_REST.ForoHub.modelo.topico.Topico;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;

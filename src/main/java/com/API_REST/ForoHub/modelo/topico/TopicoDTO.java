@@ -13,5 +13,3 @@ public record TopicoDTO(
         String mensaje
 ) {
 }
-
-// String fecha_de_creación

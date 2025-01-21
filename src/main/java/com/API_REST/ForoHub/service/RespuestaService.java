@@ -42,14 +42,3 @@ public class RespuestaService {
     }
 
 }
-
-
-//            Topico topicoActualizar = topicoExistente.get();
-//            topicoActualizar.setTitulo()
-//            topicoActualizar.setMensaje();
-//            topicoActualizar.setFechaCreacion();
-//            topicoActualizar.setIdUsuario();
-//            topicoActualizar.setCurso();
-//            topicoActualizar.setRespuestas();
-//            topicoActualizar.setStatus();
-//            topicoActualizar.setAutor();

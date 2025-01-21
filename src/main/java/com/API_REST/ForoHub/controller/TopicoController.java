@@ -35,11 +35,6 @@ public class TopicoController {
     @GetMapping
     public ResponseEntity<Page<DatosRespuestaTopico>> listarTopicos(@PageableDefault(size = 10) Pageable paginacion){
         return ResponseEntity.ok(topicoService.listarTopicos(paginacion));
-          // Validando de la BD
-//        List<Topico> topicos = topicoRepository.findAll();
-//        System.out.println("Cantidad de tópicos en la base de datos: " + topicos.size());
-//        topicos.stream().forEach(System.out::println);
-//        return topicos;
     }
 
     @GetMapping("/{id}")

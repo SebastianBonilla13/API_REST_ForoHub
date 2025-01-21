@@ -7,8 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class TopicoService {
 
@@ -41,27 +39,12 @@ public class TopicoService {
         Topico topicoExistente = topicoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("El topico con ID " +
                         id + " no fué encontrado"));
-
         return new DatosRespuestaTopico(topicoExistente);
 
-//        Optional<Topico> topicoExistente = topicoRepository.findById(id);
-//
-//        if(topicoExistente.isPresent()){
-//            Topico topico = topicoExistente.get();
-//            return new DatosRespuestaTopico(topico);
-//        }
-//        System.out.println("Topico no existe en la BD");
-//        return null;
     }
 
     public void eliminarTopico(Long id) {
         topicoRepository.deleteById(id);
-//        Optional<Topico> topicoExistente = topicoRepository.findById(id);
-//        if(topicoExistente.isPresent()){
-//            Topico topicoEliminar = topicoExistente.get();
-//            //topicoEliminar.
-//            topicoRepository.delete(topicoEliminar);
-//        }
     }
 
 }
